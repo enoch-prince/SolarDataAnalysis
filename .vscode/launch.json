@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "./cleanup_data.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": ["C:\\Users\\LENOVO T460S\\Downloads\\ProfsData\\Data\\2023\\"]
+        }
+    ]
+}
