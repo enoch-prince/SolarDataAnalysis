@@ -16,4 +16,12 @@ Run the script using the command below:
 python ./cleanup_data.py "path-to-folder-containing-folders-that-contain-csv-files"
 ```
 
-The cleaned files are saved in the Data/ directory in their respective folders
+The cleaned files are saved in the ```Data/``` directory in their respective folders.
+
+### Next
+
+Run the ```analyses.py``` file
+
+```bash
+python ./analyses.py
+```
