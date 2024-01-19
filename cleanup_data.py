@@ -51,6 +51,8 @@ def processCSVFiles(folder_name:str, csv_glob: Generator[Path, None, None]):
         for column in iv_column_names:
             splitIVdataIntoSeperateColumns(df, column)
         
+        addDayparting(df)
+
         if utils.DEBUG:
             print("Writing modified data to another file in the /Data in the CWD...\n")
 
