@@ -8,8 +8,6 @@ import numpy as np
 import utils
 
 columns_to_drop = ["Panel Ambient(°C)", "Floor Ambient(°C)", "Sys Temp(°C)", "Sys Hum(%)", "Vbat(V)"]
-row_start = 173
-row_end = 308
 
 def parseCmdLineForCSVPath() -> str:
     parser = argparse.ArgumentParser(
@@ -49,9 +47,7 @@ def processCSVFiles(folder_name:str, csv_glob: Generator[Path, None, None]):
         mask = ((df["Started"].values >= '09:00:00') & (df["Started"].values <= '16:05:00'))
         df = df.loc[mask]
         
-        addDayparting(df)
-
-        iv_column_names = [column for column in df.columns if column.startswith("IV")]
+        iv_column_names = [column for column in df.columns if "IV" in column]
         for column in iv_column_names:
             splitIVdataIntoSeperateColumns(df, column)
         
