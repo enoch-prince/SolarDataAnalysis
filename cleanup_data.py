@@ -1,9 +1,9 @@
-from datetime import time
 from pathlib import Path
 import argparse
 import sys
 from typing import Generator
 import pandas as pd
+import numpy as np
 
 import utils
 
@@ -49,7 +49,9 @@ def processCSVFiles(folder_name:str, csv_glob: Generator[Path, None, None]):
         mask = ((df["Started"].values >= '09:00:00') & (df["Started"].values <= '16:05:00'))
         df = df.loc[mask]
         
-        iv_column_names = [column for column in df.columns if "IV" in column]
+        addDayparting(df)
+
+        iv_column_names = [column for column in df.columns if column.startswith("IV")]
         for column in iv_column_names:
             splitIVdataIntoSeperateColumns(df, column)
         
@@ -78,9 +80,23 @@ def splitIVdataIntoSeperateColumns(df: pd.DataFrame, column_name: str):
     df.insert(column_index+1, f"I{column_name[2:]}", i_list)
     df.drop([column_name], axis=1, inplace=True)
 
+def addDayparting(df: pd.DataFrame):
+    column_index = df.columns.tolist().index("Started")
+    conditions = [(df["Started"] >= '09:00:00') & (df["Started"] < '12:00:00'),
+                  (df["Started"] >= '12:00:00') & (df["Started"] < '15:00:00')]
+    outputs = ["Morning", "Afternoon"]
+    res = np.select(conditions, outputs, "Late Afternoon")
+  
+    df.insert(column_index+1, "Dayparting", res, True)
+
+
 def main():
     path_str = parseCmdLineForCSVPath()
     folder_name, folder_glob = utils.resolveDataFolderPaths(path_str)
+
+    data_dir_path = Path("Data")
+    if not data_dir_path.exists():
+        data_dir_path.mkdir()
     
     if folder_glob is not None:
         for folder_path in folder_glob:

@@ -61,7 +61,6 @@ def main():
         df = pd.DataFrame(data, columns=columns)
         save_to_file(f"Analyses/{folder_path.name}.csv", df)
 
-    # print(df)
 
 if __name__ == "__main__":
     main()

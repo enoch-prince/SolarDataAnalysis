@@ -1,3 +1,6 @@
 Data/**/*.csv
 Analyses/*.csv
 __pycache__/*
+*.zip
+*.png
+*.jpg
